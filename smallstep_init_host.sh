@@ -5,11 +5,11 @@
 # 
 # See https://smallstep.com/blog/diy-single-sign-on-for-ssh/ for full instructions
 
-CA_URL="https://tx-aws-sshca01.thebrynards.com"
+CA_URL=""
 
 # Obtain your CA fingerprint by running this on your CA:
 #   # step certificate fingerprint $(step path)/certs/root_ca.crt
-CA_FINGERPRINT="17c692f56190f658d2577ebd83d5f4eeafee148de1233e6f9b1c6ce644d8bb42"
+CA_FINGERPRINT=""
 
 gitLatestVersion() {
     curl --silent "https://api.github.com/repos/smallstep/cli/releases/latest"
