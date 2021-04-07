@@ -5,14 +5,15 @@
 #
 # See https://smallstep.com/blog/diy-single-sign-on-for-ssh/ for full instructions
 
-OIDC_CLIENT_ID="5416443c-a718-4043-ab9f-20e6c8b1db2a" # from Azure
-OIDC_CLIENT_SECRET="_2BInrGPm72Qp_5_~TT8J~OwNr0fBpOLKO" # from Azure
-ALLOWED_DOMAIN="thebrynards.com,brynardsecurity.com"
-CA_NAME="SSH CA"
-ROOT_KEY_PASSWORD="90mLGBlBZC-JKt12dt.QTV5z..hSVMc8X4"
-EMAIL="ralph@thebrynards.com"
+OIDC_CLIENT_ID="" # from Azure
+OIDC_CLIENT_SECRET="" # from Azure
+ALLOWED_DOMAIN=""
+CA_NAME=""
+ROOT_KEY_PASSWORD=""
+EMAIL=""
+TENANT_ID=""
 
-OPENID_CONFIG_ENDPOINT="https://login.microsoftonline.com/4f5e45fb-4db4-464a-a8d2-f72ee1494603/v2.0/.well-known/openid-configuration"
+OPENID_CONFIG_ENDPOINT="https://login.microsoftonline.com/$TENANT_ID/v2.0/.well-known/openid-configuration"
 
 gitLatestVersion() {
       curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
@@ -82,7 +83,7 @@ step ca provisioner add "Amazon Web Services" --type=AWS --ssh \
 # The sshpop provisioner lets hosts renew their ssh certificates
 step ca provisioner add SSHPOP --type=sshpop --ssh
 
-# Use Google (OIDC) as the default provisioner in the end user's
+# Use Azure (OIDC) as the default provisioner in the end user's
 # ssh configuration template.
 sed -i 's/\%p$/%p --provisioner="Azure"/g' /etc/step-ca/templates/ssh/config.tpl
 
