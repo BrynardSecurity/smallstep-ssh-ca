@@ -12,13 +12,13 @@ CA_URL=""
 CA_FINGERPRINT=""
 
 gitLatestVersion() {
-    curl --silent "https://api.github.com/repos/smallstep/cli/releases/latest"
-    grep -'"tag_name":' |
-        sed -E 's/.*"([^"]+)".*/\1/' |
-        cut -c 2-
+      curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+          grep '"tag_name":' |                                            # Get tag line
+          sed -E 's/.*"([^"]+)".*/\1/' |                                  # Pluck JSON value
+          cut -c 2-
 }
 
-STEPCLI_VERSION=$(gitLatestVersion)
+STEPCLI_VERSION=$(gitLatestVersion "smallstep/cli")
 
 curl -LO https://github.com/smallstep/cli/releases/download/v${STEPCLI_VERSION}/step-cli_${STEPCLI_VERSION}_amd64.deb
 dpkg -i step-cli_${STEPCLI_VERSION}_amd64.deb
@@ -26,7 +26,8 @@ dpkg -i step-cli_${STEPCLI_VERSION}_amd64.deb
 # Configure `step` to connect to & trust our `step-ca`.
 # Pull down the CA's root certificate so we can talk to it later with TLS
 step ca bootstrap --ca-url $CA_URL \
-                  --fingerprint $CA_FINGERPRINT
+                  --fingerprint $CA_FINGERPRINT \
+                  --install
 
 # Install the CA cert for validating user certificates (from /etc/step-ca/certs/ssh_user_key.pub` on the CA).
 step ssh config --roots > $(step path)/certs/ssh_user_key.pub

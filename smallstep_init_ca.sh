@@ -24,7 +24,7 @@ gitLatestVersion() {
 
 caVers=$( gitLatestVersion "smallstep/certificates" ) 
 curl -sLO https://github.com/smallstep/certificates/releases/download/v${caVers}/step-ca_${caVers}_amd64.deb
-dpkg -i step-certificates_${caVers}_amd64.deb
+dpkg -i step-ca_${caVers}_amd64.deb
 
 cliVers=$( gitLatestVersion "smallstep/cli" )
 curl -sLO https://github.com/smallstep/cli/releases/download/v${cliVers}/step-cli_${cliVers}_amd64.deb
